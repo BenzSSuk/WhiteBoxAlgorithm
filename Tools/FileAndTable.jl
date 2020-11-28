@@ -1,16 +1,6 @@
-
-module zt
+module FileAndTable
 using CSV
 using DataFrames
-# function testA()
-#     print("A")
-#     out="Out from A"
-#     return out
-# end
-# function testB()
-#     print("Call B but get out from A")
-#     return testA()
-# end
 
 function GetList(pathFolder)
     fileFound=readdir(pathFolder)
