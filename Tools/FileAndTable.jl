@@ -1,6 +1,9 @@
 module FileAndTable
+# Please remind, you can include() other module in folder Tools 
 using CSV
 using DataFrames
+
+export GetList, LoadTable, FilterDF
 
 function GetList(pathFolder)
     fileFound=readdir(pathFolder)
@@ -8,20 +11,32 @@ function GetList(pathFolder)
     return [fileFound,dirFileFound]
 end
 
+function FindFile(pathSearch)
+    fileFound=readdir(pathFolder)
+    dirFileFound=readdir(pathFolder,join=true)
+
+
+end
+
 function LoadTable(pathFolder,wordSearch,combineFile)
     fileFound,dirFileFound=GetList(pathFolder)
 
-
     loadedFile=Dict()
+    listLoaded=Dict()
     nFile=length(fileFound)
-    global loadedFile,nFile
+    countFile=0
+    global loadedFile,listLoaded,nFile,countFile
     for ifile=1:nFile
-        global loadedFile,nFile
-        println("$ifile/$nFile:",fileFound[ifile])
+        global loadedFile
+        # println("$ifile/$nFile:",fileFound[ifile])
 
-        loadedFile[ifile]=CSV.read(string(pathFolder,'\\',fileFound[ifile]))
+        if occursin(wordSearch,fileFound[ifile])
+            countFile=countFile+1;    
+            listLoaded[countFile]=fileFound[ifile];
+            loadedFile[countFile]=CSV.read(string(pathFolder,'\\',fileFound[ifile]));
+        end
     end
-    return loadedFile,fileFound
+    return loadedFile,listLoaded
 end
 
 function FilterDF(df,listFil)
