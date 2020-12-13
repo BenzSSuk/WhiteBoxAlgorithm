@@ -2,7 +2,26 @@ import numpy as np
 import math
 import  matplotlib.pyplot as plt
 
-import NeuralNet as skNN
+
+import sys
+import os
+
+# If open folder with PyCharm, cwd is path of opened folder automatically.
+NeuralNetworkDir = os.getcwd()  # projDir = ...\WhiteBoxAlgorithm
+
+# or you can manual add custom path with code below
+os.chdir("../") # number of step is depend on where the code
+projDir=os.getcwd()
+
+pathCustomLib=[projDir + '\\NeuralNetwork\\lib',
+               projDir + '\\Tools']
+#
+for ipath in pathCustomLib:
+    if not(ipath in sys.path):
+        print(f'Adding path:{ipath}')
+        sys.path.append(ipath)
+import NeuralNet as wbxnn
+
 
 '''
 Try to use neural for curve fitting
@@ -46,7 +65,7 @@ nHidLayer=len(nNodeInEachHid)
 transfNetwork=['sigm','purelin']
 
 # Build the network
-nnfit=skNN.MLP()
+nnfit=wbxnn.MLP()
 nnfit.build(p,indexSampleP,target,indexSampleTarget,nNodeInEachHid,transfNetwork)
 
 # training
