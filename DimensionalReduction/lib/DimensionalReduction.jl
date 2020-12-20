@@ -6,7 +6,7 @@ using LinearAlgebra
 
 export PCA
 
-function PCA(featureMat,dimNew)
+function PCA(featureMat,newDims)
 # featureMat >> feature in column, sample in row
 
 # 0. Fliter nan and zero
@@ -19,19 +19,21 @@ featMatCentralized = featureMat .- mean(featureMat,dims=1);
 featMatCentralized_cov = cov(featMatCentralized,dims=1);
 
 # 3. Eigen vector and eigen values
-covMat_eigVec = eigvecs(featMatCentralized_cov)
-covMat_eigVal = eigvals(featMatCentralized_cov)
+covMat_eigVec = eigvecs(featMatCentralized_cov) 
+covMat_eigVal = eigvals(featMatCentralized_cov) # sorted low >> high
 
 # 4. Sum eigen
 sumEigval = sum(covMat_eigVal);
-
-for i = 1:length(covMat_eigVal)
+neigs=length(covMat_eigVal)
+eigvalRatio=zeros(neigs)
+for i = 1:neigs
+    # global eigvalRatio
     eigvalRatio[i]=sum(covMat_eigVal[1:i])/sumEigval;
 end
 
-featureMatNew=featureMat*covMat_eigVec[:,[1:dimNew]];
+featureMatNew=featureMat*covMat_eigVec[:,1:newDims];
 
-return featureMatNew, eigvalRatio
+return featureMatNew, eigvalRatio, covMat_eigVal, covMat_eigVec
 
 end
 
