@@ -1,10 +1,15 @@
-module DimensionalReduction
+# module DimensionalReduction
+module DimReduce
 
-using statistics
+using Statistics
 using LinearAlgebra
 
+export PCA
+
 function PCA(featureMat,dimNew)
-# feature in column, sample in row
+# featureMat >> feature in column, sample in row
+
+# 0. Fliter nan and zero
 
 # 1. Centralize, subtract by mean  
 #                      subtract each col with mean each column
@@ -20,7 +25,15 @@ covMat_eigVal = eigvals(featMatCentralized_cov)
 # 4. Sum eigen
 sumEigval = sum(covMat_eigVal);
 
+for i = 1:length(covMat_eigVal)
+    eigvalRatio[i]=sum(covMat_eigVal[1:i])/sumEigval;
+end
+
+featureMatNew=featureMat*covMat_eigVec[:,[1:dimNew]];
+
+return featureMatNew, eigvalRatio
 
 end
+
 
 end
