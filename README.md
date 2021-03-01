@@ -1,3 +1,3 @@
 # WhiteBoxAlgorithm
-Enchanced your understanding of algorithm by coding from scratch.
+Break the limit of your understanding by coding from scratch.
 
